@@ -1,7 +1,7 @@
 # swoft-laravel-databases
 集成 laravel orm 组件至 swoft 
 
-php >7.2, swoole > 4.0.3, swoft > v1.9 (暂不支持v2.x) 
+php >7.2, swoole > 4.0.3, swoft > v2.x
 
 ## 技术细节
 1. 技术目标：
