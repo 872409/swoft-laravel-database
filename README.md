@@ -1,5 +1,7 @@
-# swoft-laravel-databases
+# swoft-laravel-x1024/database2
 集成 laravel orm 组件至 swoft 
+
+forked from [swoft-laravel-database](https://github.com/RiceWong/swoft-laravel-database)
 
 php >7.2, swoole > 4.0.3, swoft > v2.x
 
@@ -18,7 +20,7 @@ php >7.2, swoole > 4.0.3, swoft > v2.x
 ...
     "require": {
         ...
-        "swoft-laravel/database": "^1.0.3"
+        "swoft-laravel-x1024/database2": "^2.0"
         ...
     }
 ....
@@ -104,28 +106,33 @@ return [
 ];
 ```
 如果需要使用 swoole 异步客户端，需要绑定命名空间下的事件监听器
-在配置文件 config\properties\app.php 添加如下配置
-```php
-return [
-    ...
-    'bootScan'     => [
-        ...
-        'SwoftLaravel\\Database\\Listener',
-        ...
-    ],
-    ...
-];
-```
-或者手工管理
+
 初始化连接
 ```php
+use Swoft\Event\Annotation\Mapping\Listener;
+use Swoft\Event\EventHandlerInterface;
+use Swoft\Event\EventInterface;
+use Swoft\Log\Helper\CLog;
+use Swoft\Server\SwooleEvent;
 use SwoftLaravel\Database\DatabaseServiceProvider;
-class OnWorkerStartListener implements WorkerStartInterface {
-    public function onWorkerStart(Server $server, int $workerId, bool $isWorker) {
-        if ($isWorker){
-            $confPath = BASE_PATH.'/config/database.php';
-            DatabaseServiceProvider::init($confPath);
-        }
+
+/**
+ * Class WorkerStartListener
+ *
+ * @since 2.0
+ *
+ * @Listener(event=SwooleEvent::WORKER_START)
+ */
+class WorkerStartListener implements EventHandlerInterface
+{
+    /**
+     * @param EventInterface $event
+     */
+    public function handle(EventInterface $event): void
+    {
+        $confPath = __DIR__ . '/../../config/database.php';
+        DatabaseServiceProvider::init($confPath);
+        CLog::debug($confPath);
     }
 }
 
