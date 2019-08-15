@@ -1,6 +1,6 @@
 {
-    "name": "swoft-laravel/database2",
-    "description": "laravel database in swoft",
+    "name": "swoft-laravel-x1024/database2",
+    "description": "laravel orm database in swoft",
     "type": "library",
     "license": "MIT",
     "authors": [
