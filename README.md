@@ -139,6 +139,36 @@ class WorkerStartListener implements EventHandlerInterface
 ```
  连接生命周期结束则自动回收
  
+ 忽略异常注释
+ ```php
+namespace App;
+
+use Doctrine\Common\Annotations\AnnotationReader;
+use Swoft\Annotation\AnnotationRegister;
+use Swoft\SwoftApplication;
+use function date_default_timezone_set;
+
+/**
+ * Class Application
+ *
+ * @since 2.0
+ */
+class Application extends SwoftApplication
+{
+    protected function beforeInit(): void
+    {
+        parent::beforeInit();
+        
+        //忽略异常注释
+        AnnotationReader::addGlobalIgnoredName('mixin');
+        
+        date_default_timezone_set('Asia/Shanghai');
+    }
+
+}
+ ```
+ 
+ 
 ## 使用
 ```php 
 use SwoftLaravel\Database\Capsule as DB;
